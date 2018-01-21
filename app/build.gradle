@@ -1,0 +1,109 @@
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}
+android {
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
+    defaultConfig {
+        applicationId "com.journaler"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner
+        "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            java.srcDirs = [
+                    'src/main/kotlin',
+                    'src/common/kotlin',
+                    'src/debug/kotlin',
+                    'src/release/kotlin',
+                    'src/staging/kotlin',
+                    'src/preproduction/kotlin',
+                    'src/debug/java',
+                    'src/release/java',
+                    'src/staging/java',
+                    'src/preproduction/java',
+                    'src/androidTest/java',
+                    'src/androidTest/kotlin'
+            ]
+        }
+        buildTypes {
+            debug {
+                applicationIdSuffix ".dev"
+            }
+            staging {
+                debuggable true
+                applicationIdSuffix ".sta"
+            }
+            preproduction {
+                applicationIdSuffix ".pre"
+            }
+            release {}
+        }
+
+        flavorDimensions "tier", "minApi", "-special", "-complete", "-demo"
+        productFlavors {
+            free {
+                // Assigns this product flavor to the "tier" flavor dimension. Specifying
+                // this property is optional if you are using only one dimension.
+                dimension "tier"
+            }
+
+            paid {
+                dimension "tier"
+            }
+
+            minApi23 {
+                dimension "minApi"
+            }
+
+            minApi18 {
+                dimension "minApi"
+            }
+
+            demo {
+                applicationIdSuffix ".demo"
+                versionNameSuffix "-demo"
+                dimension "-demo"
+            }
+            complete {
+                applicationIdSuffix ".complete"
+                versionNameSuffix "-complete"
+                dimension "-complete"
+
+            }
+            special {
+                applicationIdSuffix ".special"
+                versionNameSuffix "-special"
+                dimension "-special"
+            }
+        }
+
+    }
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        compile "org.jetbrains.kotlin:kotlin-stdlib:1.1.3"
+        compile 'com.android.support:design:26+'
+        compile 'com.android.support:appcompat-v7:26+'
+        compile 'com.google.code.gson:gson:2.8.0'
+        compile 'com.squareup.retrofit2:retrofit:2.2.0'
+        compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+        compile 'com.squareup.okhttp3:okhttp:3.6.0'
+        compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+    }
+}
